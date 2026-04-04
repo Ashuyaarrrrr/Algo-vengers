@@ -1,80 +1,87 @@
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuthStore } from '@/lib/auth-store';
-import { DEMO_USERS, ROLE_LABELS, ROLE_COLORS, type UserRole } from '@/lib/demo-data';
-import { Leaf, FlaskConical, Factory, Package, ShieldCheck } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
+import { DEMO_USERS } from '@/lib/demo-data';
 import { Button } from '@/components/ui/button';
-
-const ROLE_ICONS: Record<UserRole, React.ElementType> = {
-  farmer: Leaf,
-  lab: FlaskConical,
-  processor: Factory,
-  manufacturer: Package,
-  admin: ShieldCheck,
-};
-
-const ROLE_DESCRIPTIONS: Record<UserRole, string> = {
-  farmer: 'Log harvest events with GPS, species data, and quality assessments',
-  lab: 'Run quality tests, upload certificates, validate batches',
-  processor: 'Track drying, grinding, and storage processing stages',
-  manufacturer: 'Create formulations, generate QR codes, manage products',
-  admin: 'Monitor network health, compliance, and supply chain analytics',
-};
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 export default function LoginPage() {
-  const { login } = useAuthStore();
   const navigate = useNavigate();
+  const { login } = useAuthStore();
+  
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
-  const handleLogin = (userId: string) => {
-    login(userId);
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!username) return;
+
+    // For demo purposes, we will assign a demo user ID based on matching the username roughly
+    // Or default to 'farmer-1' if not found.
+    const userToLogin = DEMO_USERS.find(u => 
+      u.name.toLowerCase().includes(username.toLowerCase()) || 
+      u.id.includes(username.toLowerCase())
+    ) || DEMO_USERS[0];
+
+    login(userToLogin.id);
     navigate('/dashboard');
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4 py-12 bg-gradient-to-b from-sage-50/50 to-background">
-      <div className="w-full max-w-2xl animate-fade-in">
-        <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2.5 mb-4">
-            <Leaf className="h-10 w-10 text-primary" />
-            <h1 className="text-3xl font-bold">AyurTrace</h1>
-          </div>
-          <p className="text-muted-foreground max-w-md mx-auto">
-            Blockchain-powered traceability for Ayurvedic herbs — from farm to shelf.
+    <div className="min-h-screen flex flex-col items-center justify-center px-4 py-12 bg-gray-50/50">
+      <div className="w-full max-w-md animate-fade-in mx-auto">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h1>
+          <p className="text-muted-foreground text-gray-500">
+            Sign in to your HerbChain account
           </p>
         </div>
 
-        <div className="grid gap-3">
-          {DEMO_USERS.map((user) => {
-            const Icon = ROLE_ICONS[user.role];
-            return (
-              <Card
-                key={user.id}
-                className="cursor-pointer hover:shadow-md hover:border-primary/30 transition-all"
-                onClick={() => handleLogin(user.id)}
-              >
-                <CardContent className="p-4 flex items-center gap-4">
-                  <div className={`rounded-lg p-2.5 ${ROLE_COLORS[user.role]}`}>
-                    <Icon className="h-5 w-5" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span className="font-semibold">{user.name}</span>
-                      <span className="text-xs px-2 py-0.5 rounded-full bg-muted text-muted-foreground">{ROLE_LABELS[user.role]}</span>
-                    </div>
-                    <p className="text-sm text-muted-foreground truncate">{user.organization}</p>
-                    <p className="text-xs text-muted-foreground mt-0.5">{ROLE_DESCRIPTIONS[user.role]}</p>
-                  </div>
-                  <Button variant="outline" size="sm">Login</Button>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+          <form onSubmit={handleLogin} className="space-y-6">
+            <div className="space-y-2">
+              <Label htmlFor="username" className="text-gray-600 font-medium">Username</Label>
+              <Input
+                id="username"
+                placeholder="jbj"
+                className="bg-[#eff5ff] border-gray-200"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+            </div>
 
-        <div className="mt-8 text-center">
-          <Button variant="link" className="text-muted-foreground" onClick={() => navigate('/verify/ASHVITAL-001-2026')}>
-            Or scan a product as a consumer →
-          </Button>
+            <div className="space-y-2">
+              <Label htmlFor="password" className="text-gray-600 font-medium">Password</Label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="•••"
+                className="bg-[#eff5ff] border-gray-200 tracking-widest"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+
+            <Button type="submit" className="w-full bg-[#10b981] hover:bg-[#059669] text-white">
+              Sign In
+            </Button>
+          </form>
+          
+          <div className="mt-6 text-center space-y-2">
+            <div>
+              <Link to="/signup" className="text-sm text-gray-500 hover:text-gray-700">
+                Don't have an account? Create one
+              </Link>
+            </div>
+            <div>
+              <Link to="/verify/ASHVITAL-001-2026" className="text-sm text-[#10b981] hover:text-[#059669]">
+                Or scan a product as a consumer →
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </div>

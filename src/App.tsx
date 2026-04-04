@@ -6,7 +6,9 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { AppLayout } from "@/components/AppLayout";
 
+import Index from "./pages/Index";
 import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/SignUpPage";
 import DashboardPage from "./pages/DashboardPage";
 import ConsumerVerifyPage from "./pages/ConsumerVerifyPage";
 import FarmerCollectPage from "./pages/FarmerCollectPage";
@@ -31,8 +33,9 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/" element={<Index />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
           <Route path="/verify/:qrCode" element={<ConsumerVerifyPage />} />
 
           <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>

@@ -22,7 +22,7 @@ export default function ConsumerVerifyPage() {
         <div className="container flex h-14 items-center justify-between">
           <Link to="/" className="flex items-center gap-2 font-heading font-bold text-lg">
             <Leaf className="h-6 w-6 text-primary" />
-            <span>AyurTrace</span>
+            <span>Ayur</span>
           </Link>
           <Badge variant="outline" className="text-xs">Consumer Portal</Badge>
         </div>

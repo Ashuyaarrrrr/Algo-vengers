@@ -72,7 +72,7 @@ export function AppLayout() {
             </button>
             <Link to="/dashboard" className="flex items-center gap-2 font-heading font-bold text-lg">
               <Leaf className="h-6 w-6 text-primary" />
-              <span>AyurTrace</span>
+              <span>HerbChain</span>
             </Link>
           </div>
 
