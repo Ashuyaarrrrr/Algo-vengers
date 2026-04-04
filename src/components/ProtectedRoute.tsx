@@ -22,8 +22,8 @@ export function ProtectedRoute({ children, allowedRoles }: Props) {
     );
   }
 
-  // Not logged in → redirect to login
-  if (!user) return <Navigate to="/login" replace />;
+  // Not logged in → redirect to frontpage
+  if (!user) return <Navigate to="/" replace />;
 
   // Role check → redirect to dashboard if not allowed
   if (allowedRoles && user.role && !allowedRoles.includes(user.role as any)) {

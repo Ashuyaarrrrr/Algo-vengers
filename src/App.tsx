@@ -76,11 +76,8 @@ function AuthInitializer() {
             // NEVER redirect away from /complete-profile — the user is
             // actively filling the form and a mid-submit redirect would
             // unmount the component and reset loading state.
-            const navigablePages = ['/auth/callback', '/login', '/signup', '/'];
-            const currentPath = window.location.pathname;
-            const canAutoNavigate = navigablePages.includes(currentPath);
-
-            if (canAutoNavigate) {
+            // ONLY auto-navigate when returning from Google OAuth
+            if (window.location.pathname === '/auth/callback') {
               if (!profile) {
                 console.log('➡️ No profile — redirecting to complete-profile');
                 navigate('/complete-profile', { replace: true });
@@ -97,7 +94,7 @@ function AuthInitializer() {
             const protectedPaths = ['/dashboard', '/farmer', '/lab', '/processor', '/manufacturer', '/admin'];
             const isOnProtectedPage = protectedPaths.some(p => window.location.pathname.startsWith(p));
             if (isOnProtectedPage) {
-              navigate('/login', { replace: true });
+              navigate('/', { replace: true });
             }
           }
           } catch (err) {

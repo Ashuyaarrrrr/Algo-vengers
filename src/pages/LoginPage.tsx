@@ -18,15 +18,26 @@ export default function LoginPage() {
     
     setLoading(true);
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
       if (error) throw error;
 
-      // App.tsx onAuthStateChange will automatically handle navigation
-      // and route to /complete-profile or /dashboard based on profile existence.
+      if (data.user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', data.user.id)
+          .maybeSingle();
+
+        if (profile) {
+          navigate('/dashboard');
+        } else {
+          navigate('/complete-profile');
+        }
+      }
     } catch (err: any) {
       alert(err.message || "Failed to log in");
     } finally {

@@ -90,7 +90,7 @@ export default function SignUpPage() {
         }
       }
 
-      // App.tsx auth listener handles navigation globally.
+      navigate('/dashboard');
 
     } catch (err: any) {
       alert(err.message || 'Something went wrong');
