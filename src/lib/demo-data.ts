@@ -1,4 +1,4 @@
-export type UserRole = 'farmer' | 'lab' | 'processor' | 'manufacturer' | 'admin';
+export type UserRole = 'farmer' | 'lab' | 'processor' | 'manufacturer' | 'distributor' | 'retailer' | 'admin';
 
 export interface DemoUser {
   id: string;
@@ -22,6 +22,8 @@ export const ROLE_LABELS: Record<UserRole, string> = {
   lab: 'Lab Technician',
   processor: 'Processor',
   manufacturer: 'Manufacturer',
+  distributor: 'Distributor',
+  retailer: 'Retailer',
   admin: 'Admin / Regulator',
 };
 
@@ -30,6 +32,8 @@ export const ROLE_COLORS: Record<UserRole, string> = {
   lab: 'bg-info/10 text-info',
   processor: 'bg-terra-100 text-terra-700',
   manufacturer: 'bg-amber-100 text-amber-800',
+  distributor: 'bg-blue-100 text-blue-800',
+  retailer: 'bg-purple-100 text-purple-800',
   admin: 'bg-muted text-foreground',
 };
 

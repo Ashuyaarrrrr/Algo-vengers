@@ -14,15 +14,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-type UserRole = 'farmer' | 'lab' | 'processor' | 'manufacturer' | 'admin';
-
-const ROLE_REDIRECT: Record<UserRole, string> = {
-  farmer: '/dashboard',
-  lab: '/dashboard',
-  processor: '/dashboard',
-  manufacturer: '/dashboard',
-  admin: '/dashboard',
-};
+type UserRole = 'farmer' | 'lab' | 'processor' | 'manufacturer' | 'distributor' | 'retailer' | 'admin';
 
 export default function CompleteProfile() {
   const navigate = useNavigate();
@@ -73,7 +65,11 @@ export default function CompleteProfile() {
 
       const userId = sessionUser.id;
       const userEmail = sessionUser.email;
-      const userName = sessionUser.user_metadata?.full_name;
+      const userName = sessionUser.user_metadata?.full_name || 
+                       sessionUser.user_metadata?.name ||
+                       userEmail?.split('@')[0] || 
+                       'User';
+      
       console.log('✅ User resolved:', userId);
 
       // Step 2: Upsert profile — safe for both new users and re-submits
@@ -83,7 +79,8 @@ export default function CompleteProfile() {
         .upsert(
           {
             id: userId,
-            name: userName || userEmail?.split('@')[0] || 'User',
+            email: userEmail,
+            name: userName,
             role,
             location,
           },
@@ -100,7 +97,7 @@ export default function CompleteProfile() {
         console.error('❌ Profile upsert error code:', profileError.code, profileError.message);
         // Provide actionable messages for common errors
         if (profileError.code === '42501') {
-          throw new Error('Permission denied. Please check that RLS policies allow INSERT and UPDATE for authenticated users.');
+          throw new Error('Permission denied. The database RLS policy is blocking profile creation. Please run the supabase_email_auth_fix.sql script in your Supabase SQL Editor.');
         }
         throw new Error(`Failed to save profile: ${profileError.message}`);
       }
@@ -164,6 +161,8 @@ export default function CompleteProfile() {
                 <SelectItem value="lab">🔬 Lab Technician</SelectItem>
                 <SelectItem value="processor">⚙️ Processor</SelectItem>
                 <SelectItem value="manufacturer">🏭 Manufacturer</SelectItem>
+                <SelectItem value="distributor">🚚 Distributor</SelectItem>
+                <SelectItem value="retailer">🏪 Retailer</SelectItem>
                 <SelectItem value="admin">🛡️ Admin</SelectItem>
               </SelectContent>
             </Select>

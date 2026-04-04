@@ -1,0 +1,240 @@
+﻿
+> herbchain-blockchain@1.0.0 demo
+> hardhat run scripts/demo-lifecycle.js --network localhost
+
+
+[32mΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ[0m
+  [1m≡ƒî┐  HerbChain ΓÇö Full Supply Chain Demo[0m
+  [90mAshwagandha Root Batch: Farm to Shelf[0m
+[32mΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ[0m
+
+  [1mNetwork:[0m   [36mlocalhost[0m
+  [1mAdmin:[0m     0xf39Fd6ΓÇª2266
+  [1mCollector:[0m 0x709979ΓÇª79C8
+  [1mProcessor:[0m 0x3C44CdΓÇª93BC
+  [1mLab:[0m       0x90F79bΓÇªb906
+  [1mManuf.:[0m    0x15d34AΓÇª6A65
+  [1mDistrib.:[0m  0x996550ΓÇªA4dc
+  [1mRetailer:[0m  0x976EA7ΓÇª0aa9
+
+    [34mΓä╣[0m Reusing deployed contract at 0x5FbDB2315678afecb367f032d93F642f64180aa3
+
+  [33mΓû╕[0m [1mGranting supply chain rolesΓÇª[0m
+    [32mΓ£ô[0m COLLECTOR_ROLE             [90malready granted Γ£ô[0m
+    [32mΓ£ô[0m PROCESSOR_ROLE             [90malready granted Γ£ô[0m
+    [32mΓ£ô[0m LAB_ROLE                   [90malready granted Γ£ô[0m
+    [32mΓ£ô[0m MANUFACTURER_ROLE          [90malready granted Γ£ô[0m
+    [32mΓ£ô[0m DISTRIBUTOR_ROLE           [90malready granted Γ£ô[0m
+    [32mΓ£ô[0m RETAILER_ROLE              [90malready granted Γ£ô[0m
+
+  [33mΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü[0m
+  [1m≡ƒôª  Batch Profile[0m
+  [33mΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöüΓöü[0m
+  Herb Species : [36mWithania somnifera[0m
+  Herb Name    : [1mAshwagandha[0m
+  Quantity     : [36m500 kg[0m
+  Harvest Date : Sat Apr 04 2026
+  Location     : 22.7196┬░N, 75.8577┬░E  (Madhya Pradesh)
+  Sustainable  : [32mYes Γ£ô[0m
+  Quality      : [32mGrade A ΓÇö No visible damage or mold[0m
+
+[36mΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ[0m
+  ≡ƒî╛  [1mSTEP 1: Farmer records harvest on blockchain[0m
+[36mΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ[0m
+  Actor: [1mRajesh Kumar[0m (Collector) ┬╖ 0x709979ΓÇª79C8
+
+    [34mΓÅ│[0m createBatch() ΓÇö recording harvest on-chainΓÇª [32mΓ£ô
+[0m    [32mΓ¢ô[0m Batch minted on-chain!
+       [90mTX:[0m 0x0f82f19b01269ba363cae4cf204be201223a53f47ad063484412109dfe83bc4d
+       [90mGas:[0m 5,59,557 units
+    [32mΓ£ô[0m Batch ID                   [90m0xa4abcfb3dca7ΓÇª214f09[0m
+    [32mΓ£ô[0m Block                      [90m26[0m
+    [32mΓ£ô[0m Current Owner              [90m0x709979ΓÇª79C8 (Collector)[0m
+    [32mΓ£ô[0m Sustainable                [90mΓ£ô Yes[0m
+    [32mΓ£ô[0m Total Batches              [90m3[0m
+
+[36mΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ[0m
+  ≡ƒöä  [1mSTEP 2: Collector ΓåÆ Processor custody transfer[0m
+[36mΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ[0m
+  Actor: [1mRajesh Kumar[0m ΓåÆ [1mHerbCraft Processing Facility[0m
+
+    [34mΓÅ│[0m transferOwnership() ΓÇö handing batch to processorΓÇª [32mΓ£ô
+[0m    [32mΓ¢ô[0m Ownership transferred!
+       [90mTX:[0m 0x081373829857f2f28cd82a1eadeb23ee98bff34dc80618fb40369e7c89ec212d
+       [90mGas:[0m 3,10,579 units
+    [32mΓ£ô[0m From                       [90m0x709979ΓÇª79C8 (Collector)[0m
+    [32mΓ£ô[0m To                         [90m0x3C44CdΓÇª93BC (Processor)[0m
+    [32mΓ£ô[0m Location                   [90mIndore Processing Centre, M.P.[0m
+    [32mΓ£ô[0m New Owner                  [90m0x3C44CdΓÇª93BC (Processor)[0m
+
+[36mΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ[0m
+  ΓÜÖ∩╕Å  [1mSTEP 3: Processor records processing steps[0m
+[36mΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ[0m
+  Actor: [1mAnand Menon[0m ┬╖ 0x3C44CdΓÇª93BC
+
+    [34mΓÅ│[0m addProcessingStep(DRYING) ΓÇö 48h sun-drying at 42┬░CΓÇª [32mΓ£ô
+[0m    [32mΓ¢ô[0m Drying step recorded!
+       [90mTX:[0m 0xc673de21e5e756d60a45d819a92d33dbec9a5e61dd69429bddc84719a711c544
+       [90mGas:[0m 3,72,682 units
+    [32mΓ£ô[0m Step Index                 [90m0[0m
+    [32mΓ£ô[0m Process Type               [90mDRYING (0)[0m
+    [34mΓÅ│[0m addProcessingStep(GRINDING) ΓÇö cold-room grind to 80-meshΓÇª [32mΓ£ô
+[0m    [32mΓ¢ô[0m Grinding step recorded!
+       [90mTX:[0m 0xc49f5628ad9d2ea0e184fac7fb9ae877410425ae761c58b0d4fcdcbc79b52845
+       [90mGas:[0m 3,97,952 units
+    [32mΓ£ô[0m Step Index                 [90m1[0m
+    [32mΓ£ô[0m Process Type               [90mGRINDING (1)[0m
+    [32mΓ£ô[0m Total Processing Steps     [90m2[0m
+
+[36mΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ[0m
+  ≡ƒöä  [1mSTEP 4: Processor ΓåÆ Lab custody transfer[0m
+[36mΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ[0m
+  Actor: [1mAnand Menon[0m ΓåÆ [1mAyurTest Laboratories, Chennai[0m
+
+    [34mΓÅ│[0m transferOwnership() ΓÇö dispatching to QA labΓÇª [32mΓ£ô
+[0m    [32mΓ¢ô[0m Dispatched to Lab!
+       [90mTX:[0m 0x3b96ddb77673c3d9be538dd80fb2bada097d3c1fa8502453fed671c7e9bd8e92
+       [90mGas:[0m 3,60,692 units
+    [32mΓ£ô[0m Current Owner              [90m0x90F79bΓÇªb906 (Lab)[0m
+
+[36mΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ[0m
+  ≡ƒö¼  [1mSTEP 5: Lab records quality test results[0m
+[36mΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ[0m
+  Actor: [1mDr. Priya Nair[0m ┬╖ 0x90F79bΓÇªb906
+
+    [34mΓÅ│[0m recordQualityTest() ΓÇö DNA + pesticide + moisture analysisΓÇª [32mΓ£ô
+[0m    [32mΓ¢ô[0m QA test result recorded!
+       [90mTX:[0m 0xeff3a8ba7a74d7af208aec2b15fce605c094670d696594869bb8451e4803426c
+       [90mGas:[0m 3,71,566 units
+    [32mΓ£ô[0m Moisture Content           [90m8.20% Γ£ô[0m
+    [32mΓ£ô[0m Pesticide Level            [90m2 ppb Γ£ô (limit: 10 ppb)[0m
+    [32mΓ£ô[0m DNA Authenticated          [90mΓ£ô Withania somnifera[0m
+    [32mΓ£ô[0m Result                     [90m[32mΓ£à PASSED[0m[0m
+    [32mΓ£ô[0m Batch Approved             [90m[32mΓ£ô Yes[0m[0m
+
+[36mΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ[0m
+  ≡ƒöä  [1mSTEP 6: Lab ΓåÆ Manufacturer custody transfer[0m
+[36mΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ[0m
+  Actor: [1mAyurTest Lab[0m ΓåÆ [1mVedic Wellness Pvt. Ltd., Mumbai[0m
+
+    [34mΓÅ│[0m transferOwnership() ΓÇö QA-approved batch to manufacturerΓÇª [32mΓ£ô
+[0m    [32mΓ¢ô[0m Transferred to Manufacturer!
+       [90mTX:[0m 0x4475d14e9bb50d350b497694e7f4cd8579e941ec7483fcbc54b6e5a430237c8d
+       [90mGas:[0m 3,40,504 units
+    [32mΓ£ô[0m Current Owner              [90m0x15d34AΓÇª6A65 (Manufacturer)[0m
+
+[36mΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ[0m
+  ≡ƒÅ¡  [1mSTEP 7: Manufacturer creates product formulation[0m
+[36mΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ[0m
+  Actor: [1mLakshmi Devi[0m ┬╖ 0x15d34AΓÇª6A65
+
+    [34mΓÅ│[0m recordFormulation() ΓÇö AshwaGold 500mg capsule recipeΓÇª [32mΓ£ô
+[0m    [32mΓ¢ô[0m Formulation recorded!
+       [90mTX:[0m 0xee4ee0302ba81ff33e127c2f776206170ca7861210761dac8146db808eceef9b
+       [90mGas:[0m 4,21,193 units
+    [32mΓ£ô[0m Formulation ID             [90m0xb46e8e988c79ΓÇªd5113b[0m
+    [32mΓ£ô[0m Product Name               [90mAshwaGold 500mg Capsules[0m
+    [32mΓ£ô[0m Dosage                     [90m500mg ΓÇö 2 capsules twice daily with warm milk[0m
+    [32mΓ£ô[0m Composition                [90mAshwagandha 95% + Black Pepper 5%[0m
+
+[36mΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ[0m
+  ≡ƒÜ¢  [1mSTEP 8: Manufacturer ΓåÆ Distributor (ship product)[0m
+[36mΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ[0m
+  Actor: [1mVedic Wellness[0m ΓåÆ [1mPharmaLink Distributors, Delhi[0m
+
+    [34mΓÅ│[0m transferOwnership() ΓÇö shipping finished productΓÇª [32mΓ£ô
+[0m    [32mΓ¢ô[0m Product shipped to Distributor!
+       [90mTX:[0m 0xcc44deeb56e8da78a1ae69e93d12d01474a8b86ddbb8b04ad3aa3fca587a2c30
+       [90mGas:[0m 3,87,474 units
+    [32mΓ£ô[0m From                       [90m0x15d34AΓÇª6A65 (Manufacturer)[0m
+    [32mΓ£ô[0m To                         [90m0x996550ΓÇªA4dc (Distributor)[0m
+    [32mΓ£ô[0m Location                   [90mPharmaLink Hub, New Delhi[0m
+
+[36mΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ[0m
+  ≡ƒÅ¬  [1mSTEP 9: Distributor ΓåÆ Retailer (last mile delivery)[0m
+[36mΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ[0m
+  Actor: [1mPharmaLink[0m ΓåÆ [1mNaturaLife Wellness Store, Pune[0m
+
+    [34mΓÅ│[0m transferOwnership() ΓÇö last-mile delivery to retail storeΓÇª [32mΓ£ô
+[0m    [32mΓ¢ô[0m Delivered to Retailer!
+       [90mTX:[0m 0xa0313e7a79a82209ae0227257574c96dc8dd5102d7410fdbec33bd77be5edc0c
+       [90mGas:[0m 3,89,576 units
+    [32mΓ£ô[0m From                       [90m0x996550ΓÇªA4dc (Distributor)[0m
+    [32mΓ£ô[0m To                         [90m0x976EA7ΓÇª0aa9 (Retailer)[0m
+    [32mΓ£ô[0m Location                   [90mNaturaLife, Pune[0m
+
+[36mΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ[0m
+  ≡ƒô▒  [1mSTEP 10: Consumer verifies full provenance (QR scan)[0m
+[36mΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ[0m
+  Actor: [1mConsumer[0m (anyone ΓÇö read-only, no gas needed)
+
+
+  [33mΓû╕[0m [1m≡ƒôï Product Identity[0m
+    [32mΓ£ô[0m Herb Name                  [90mAshwagandha[0m
+    [32mΓ£ô[0m Batch ID                   [90m0xa4abcfb3dca7ΓÇª214f09[0m
+    [32mΓ£ô[0m Collector                  [90m0x709979ΓÇª79C8[0m
+    [32mΓ£ô[0m Sustainable                [90m[32mΓ£ô Yes[0m[0m
+    [32mΓ£ô[0m QA Status                  [90m[32mΓ£à Passed[0m[0m
+    [32mΓ£ô[0m Current Holder             [90m0x976EA7ΓÇª0aa9[0m
+
+  [33mΓû╕[0m [1m≡ƒôì Harvest Location[0m
+    [32mΓ£ô[0m GPS Lat                    [90m22.7196┬░N[0m
+    [32mΓ£ô[0m GPS Long                   [90m75.8577┬░E[0m
+    [32mΓ£ô[0m Weather                    [90mSunny / 40% humidity[0m
+    [32mΓ£ô[0m Temp                       [90m28┬░C[0m
+    [32mΓ£ô[0m Species                    [90mWithania somnifera[0m
+    [32mΓ£ô[0m Quantity                   [90m500.0 kg[0m
+
+  [33mΓû╕[0m [1mΓÜÖ∩╕Å Processing Steps (2)[0m
+    [32mΓ£ô[0m Step 1                     [90mDrying @ facility FAC-INDORE-DRY-01[0m
+    [32mΓ£ô[0m Step 2                     [90mGrinding @ facility FAC-INDORE-GRIND-01[0m
+
+  [33mΓû╕[0m [1m≡ƒö¼ Quality Tests (1)[0m
+    [32mΓ£ô[0m Test 1 Lab                 [90m0x90F79bΓÇªb906[0m
+    [32mΓ£ô[0m Test 1 Moisture            [90m8.20%[0m
+    [32mΓ£ô[0m Test 1 Pesticide           [90m2 ppb[0m
+    [32mΓ£ô[0m Test 1 DNA Auth            [90mΓ£ô Authenticated[0m
+    [32mΓ£ô[0m Test 1 Result              [90m[32mΓ£à PASSED[0m[0m
+
+  [33mΓû╕[0m [1m≡ƒöù Custody Chain (5 transfers)[0m
+    [32mΓ£ô[0m Transfer 1                 [90m0x709979ΓÇª79C8 ΓåÆ 0x3C44CdΓÇª93BC  [Indore Processing Centre, M.P.ΓÇª][0m
+    [32mΓ£ô[0m Transfer 2                 [90m0x3C44CdΓÇª93BC ΓåÆ 0x90F79bΓÇªb906  [AyurTest Laboratories, ChennaiΓÇª][0m
+    [32mΓ£ô[0m Transfer 3                 [90m0x90F79bΓÇªb906 ΓåÆ 0x15d34AΓÇª6A65  [Vedic Wellness Manufacturing PΓÇª][0m
+    [32mΓ£ô[0m Transfer 4                 [90m0x15d34AΓÇª6A65 ΓåÆ 0x996550ΓÇªA4dc  [PharmaLink Distribution Hub, OΓÇª][0m
+    [32mΓ£ô[0m Transfer 5                 [90m0x996550ΓÇªA4dc ΓåÆ 0x976EA7ΓÇª0aa9  [NaturaLife Wellness Store #42,ΓÇª][0m
+
+[32mΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ[0m
+  [1m≡ƒÅå  DEMO COMPLETE ΓÇö Full Lifecycle Verified[0m
+[32mΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ[0m
+
+  [1mContract Address:[0m  [36m0x5FbDB2315678afecb367f032d93F642f64180aa3[0m
+  [1mBatch ID:[0m          [36m0xa4abcfb3dca7ΓÇª214f09[0m
+  [1mFormulation ID:[0m    [36m0xb46e8e988c79ΓÇªd5113b[0m
+
+  [1mLifecycle Summary:[0m
+  [32mΓ£ô[0m Step 1  ΓÇö Farmer recorded harvest           [90m(createBatch)[0m
+  [32mΓ£ô[0m Step 2  ΓÇö Batch transferred to Processor   [90m(transferOwnership)[0m
+  [32mΓ£ô[0m Step 3a ΓÇö Drying step recorded              [90m(addProcessingStep)[0m
+  [32mΓ£ô[0m Step 3b ΓÇö Grinding step recorded            [90m(addProcessingStep)[0m
+  [32mΓ£ô[0m Step 4  ΓÇö Batch transferred to Lab          [90m(transferOwnership)[0m
+  [32mΓ£ô[0m Step 5  ΓÇö QA test result recorded           [90m(recordQualityTest)[0m
+  [32mΓ£ô[0m Step 6  ΓÇö Batch transferred to Manufacturer [90m(transferOwnership)[0m
+  [32mΓ£ô[0m Step 7  ΓÇö Product formulation created        [90m(recordFormulation)[0m
+  [32mΓ£ô[0m Step 8  ΓÇö Shipped to Distributor             [90m(transferOwnership)[0m
+  [32mΓ£ô[0m Step 9  ΓÇö Delivered to Retailer              [90m(transferOwnership)[0m
+  [32mΓ£ô[0m Step 10 ΓÇö Consumer verified full provenance  [90m(viewBatchProvenance)[0m
+
+  [1mOn-Chain Stats:[0m
+  [32mΓû╕[0m Transfers recorded:  [36m5[0m
+  [32mΓû╕[0m Processing steps:    [36m2[0m
+  [32mΓû╕[0m QA tests:            [36m1[0m (PASSED)
+  [32mΓû╕[0m Total batches ever:  [36m3[0m
+  [32mΓû╕[0m Final owner:         [36m0x976EA7ΓÇª0aa9[0m [90m(Retailer)[0m
+
+  [1mFrontend QR URL:[0m   [36mhttp://localhost:8080/verify/ASHW-GOLD-2026-001[0m
+  [1mHardhat Explorer:[0m  [90mNo explorer for localhost ΓÇö use above batch ID[0m
+
+[32mΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ[0m
+  [1m≡ƒî┐  HerbChain: Every herb verified, every step immutable.[0m
+[32mΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ[0m
+

@@ -1,0 +1,18 @@
+{
+  "name": "herbchain-backend",
+  "version": "1.0.0",
+  "description": "HerbChain Backend — Blockchain Sync + API",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node blockchain-sync.js",
+    "sync": "SYNC_ONLY=1 node blockchain-sync.js",
+    "print-sql": "node blockchain-sync.js --print-sql"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "ethers": "^6.11.1",
+    "express": "^4.18.3"
+  }
+}

@@ -5,6 +5,8 @@ import LabDashboard from '@/components/dashboards/LabDashboard';
 import ProcessorDashboard from '@/components/dashboards/ProcessorDashboard';
 import ManufacturerDashboard from '@/components/dashboards/ManufacturerDashboard';
 import AdminDashboard from '@/components/dashboards/AdminDashboard';
+import DistributorDashboard from '@/components/dashboards/DistributorDashboard';
+import RetailerDashboard from '@/components/dashboards/RetailerDashboard';
 
 const DASHBOARDS = {
   farmer: FarmerDashboard,
@@ -12,6 +14,8 @@ const DASHBOARDS = {
   processor: ProcessorDashboard,
   manufacturer: ManufacturerDashboard,
   admin: AdminDashboard,
+  distributor: DistributorDashboard,
+  retailer: RetailerDashboard,
 } as const;
 
 export default function DashboardPage() {

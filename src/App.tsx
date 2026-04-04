@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes, useNavigate, useLocation } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -23,6 +23,8 @@ import ManufacturerQRPage from "./pages/ManufacturerQRPage";
 import AdminNetworkPage from "./pages/AdminNetworkPage";
 import AdminCompliancePage from "./pages/AdminCompliancePage";
 import AdminUsersPage from "./pages/AdminUsersPage";
+import DistributorShipPage from "./pages/DistributorShipPage";
+import RetailerReceivePage from "./pages/RetailerReceivePage";
 import NotFound from "./pages/NotFound";
 import AuthCallback from "./pages/AuthCallback";
 import CompleteProfile from "./pages/CompleteProfile";
@@ -49,54 +51,67 @@ function AuthInitializer() {
         void (async () => {
           console.log(`🔐 Auth event: ${event}`, session?.user?.id ?? 'no session');
 
+          const currentPath = window.location.pathname;
+
           try {
-          if (session?.user) {
-            // Fetch profile from database
-            const { data: profile, error: profileError } = await supabase
-              .from('profiles')
-              .select('*')
-              .eq('id', session.user.id)
-              .maybeSingle();
+            if (session?.user) {
+              // Fetch profile from database
+              const { data: profile, error: profileError } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', session.user.id)
+                .maybeSingle();
 
-            if (profileError) {
-              console.error('⚠️ Profile fetch error:', profileError.message);
-            }
+              if (profileError) {
+                console.error('⚠️ Profile fetch error:', profileError.message);
+              }
 
-            console.log('📋 Profile:', profile ? `role=${profile.role}` : 'none');
+              console.log('📋 Profile:', profile ? `role=${profile.role}` : 'none');
 
-            // Update store
-            useAuthStore.getState().setUser({
-              id: session.user.id,
-              email: session.user.email,
-              role: profile?.role,
-              isProfileComplete: !!profile,
-            });
+              // Update store
+              useAuthStore.getState().setUser({
+                id: session.user.id,
+                email: session.user.email,
+                role: profile?.role,
+                isProfileComplete: !!(profile?.role),
+              });
 
-            // Only auto-navigate when on the callback/login page.
-            // NEVER redirect away from /complete-profile — the user is
-            // actively filling the form and a mid-submit redirect would
-            // unmount the component and reset loading state.
-            // ONLY auto-navigate when returning from Google OAuth
-            if (window.location.pathname === '/auth/callback') {
-              if (!profile) {
-                console.log('➡️ No profile — redirecting to complete-profile');
-                navigate('/complete-profile', { replace: true });
-              } else {
-                console.log('➡️ Profile found — redirecting to dashboard');
-                navigate('/dashboard', { replace: true });
+              // Navigation logic — only redirect when appropriate:
+              // 1. Coming back from Google OAuth callback → always redirect
+              // 2. On auth/callback → always redirect
+              // 3. On login/signup pages → redirect to dashboard
+              // 4. On /complete-profile → NEVER redirect mid-form (they are filling it)
+              
+              const isOnCallbackPage = currentPath === '/auth/callback';
+              const isOnLoginPage = currentPath === '/login' || currentPath === '/signup';
+              const isOnCompletePage = currentPath === '/complete-profile';
+              
+              if (isOnCompletePage) {
+                // Don't redirect — user is actively filling the profile form
+                console.log('🛑 On complete-profile page — not redirecting');
+                return;
+              }
+
+              if (isOnCallbackPage || (event === 'SIGNED_IN' && isOnLoginPage)) {
+                if (!profile?.role) {
+                  console.log('➡️ No role — redirecting to complete-profile');
+                  navigate('/complete-profile', { replace: true });
+                } else {
+                  console.log('➡️ Profile found — redirecting to dashboard');
+                  navigate('/dashboard', { replace: true });
+                }
+              }
+
+            } else {
+              useAuthStore.getState().logout();
+
+              // Only redirect to login if currently on a protected page
+              const protectedPaths = ['/dashboard', '/farmer', '/lab', '/processor', '/manufacturer', '/admin', '/distributor', '/retailer'];
+              const isOnProtectedPage = protectedPaths.some(p => currentPath.startsWith(p));
+              if (isOnProtectedPage) {
+                navigate('/', { replace: true });
               }
             }
-
-          } else {
-            useAuthStore.getState().logout();
-
-            // Only redirect to login if currently on a protected page
-            const protectedPaths = ['/dashboard', '/farmer', '/lab', '/processor', '/manufacturer', '/admin'];
-            const isOnProtectedPage = protectedPaths.some(p => window.location.pathname.startsWith(p));
-            if (isOnProtectedPage) {
-              navigate('/', { replace: true });
-            }
-          }
           } catch (err) {
             console.error('💥 Auth state change error:', err);
             useAuthStore.getState().logout();
@@ -157,6 +172,10 @@ const App = () => {
 
               <Route path="/manufacturer/formulate" element={<ProtectedRoute allowedRoles={['manufacturer']}><ManufacturerFormulatePage /></ProtectedRoute>} />
               <Route path="/manufacturer/qr-codes" element={<ProtectedRoute allowedRoles={['manufacturer']}><ManufacturerQRPage /></ProtectedRoute>} />
+
+              <Route path="/distributor/ship" element={<ProtectedRoute allowedRoles={['distributor']}><DistributorShipPage /></ProtectedRoute>} />
+
+              <Route path="/retailer/receive" element={<ProtectedRoute allowedRoles={['retailer']}><RetailerReceivePage /></ProtectedRoute>} />
 
               <Route path="/admin/network" element={<ProtectedRoute allowedRoles={['admin']}><AdminNetworkPage /></ProtectedRoute>} />
               <Route path="/admin/compliance" element={<ProtectedRoute allowedRoles={['admin']}><AdminCompliancePage /></ProtectedRoute>} />

@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Hardhat build output
+artifacts/
+cache/
+typechain-types/
+
+# Environment
+.env
+
+# Coverage
+coverage/
+coverage.json
+
+# Deployment logs (optional — keep or ignore)
+# deployments/

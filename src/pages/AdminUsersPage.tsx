@@ -4,10 +4,16 @@ import { ROLE_LABELS, ROLE_COLORS, type UserRole } from '@/lib/demo-data';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Leaf, FlaskConical, Factory, Package, ShieldCheck } from 'lucide-react';
+import { Leaf, FlaskConical, Factory, Package, ShieldCheck, Truck, ShoppingBag } from 'lucide-react';
 
 const ROLE_ICONS: Record<UserRole, React.ElementType> = {
-  farmer: Leaf, lab: FlaskConical, processor: Factory, manufacturer: Package, admin: ShieldCheck,
+  farmer: Leaf,
+  lab: FlaskConical,
+  processor: Factory,
+  manufacturer: Package,
+  distributor: Truck,
+  retailer: ShoppingBag,
+  admin: ShieldCheck,
 };
 
 export default function AdminUsersPage() {
