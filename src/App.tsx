@@ -39,14 +39,17 @@ const queryClient = new QueryClient();
  */
 function AuthInitializer() {
   const navigate = useNavigate();
-  const location = useLocation();
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        console.log(`🔐 Auth event: ${event}`, session?.user?.id ?? 'no session');
+      (event, session) => {
+        // 🔥 CRITICAL FIX: Do NOT return a promise to onAuthStateChange!
+        // Returning a Promise that makes PostgREST calls (which rely on getSession)
+        // will cause a GoTrue WebLock deadlock and hang the entire app infinitely.
+        void (async () => {
+          console.log(`🔐 Auth event: ${event}`, session?.user?.id ?? 'no session');
 
-        try {
+          try {
           if (session?.user) {
             // Fetch profile from database
             const { data: profile, error: profileError } = await supabase
@@ -69,12 +72,15 @@ function AuthInitializer() {
               isProfileComplete: !!profile,
             });
 
-            // Only auto-navigate when on the callback page — don't redirect
-            // on every token refresh or other passive events
-            const onCallbackPage = location.pathname === '/auth/callback';
-            const isSignInEvent = event === 'SIGNED_IN' || event === 'INITIAL_SESSION';
+            // Only auto-navigate when on the callback/login page.
+            // NEVER redirect away from /complete-profile — the user is
+            // actively filling the form and a mid-submit redirect would
+            // unmount the component and reset loading state.
+            const navigablePages = ['/auth/callback', '/login', '/signup', '/'];
+            const currentPath = window.location.pathname;
+            const canAutoNavigate = navigablePages.includes(currentPath);
 
-            if (onCallbackPage || isSignInEvent) {
+            if (canAutoNavigate) {
               if (!profile) {
                 console.log('➡️ No profile — redirecting to complete-profile');
                 navigate('/complete-profile', { replace: true });
@@ -89,15 +95,16 @@ function AuthInitializer() {
 
             // Only redirect to login if currently on a protected page
             const protectedPaths = ['/dashboard', '/farmer', '/lab', '/processor', '/manufacturer', '/admin'];
-            const isOnProtectedPage = protectedPaths.some(p => location.pathname.startsWith(p));
+            const isOnProtectedPage = protectedPaths.some(p => window.location.pathname.startsWith(p));
             if (isOnProtectedPage) {
               navigate('/login', { replace: true });
             }
           }
-        } catch (err) {
-          console.error('💥 Auth state change error:', err);
-          useAuthStore.getState().logout();
-        }
+          } catch (err) {
+            console.error('💥 Auth state change error:', err);
+            useAuthStore.getState().logout();
+          }
+        })();
       }
     );
 

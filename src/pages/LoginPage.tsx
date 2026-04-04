@@ -25,7 +25,8 @@ export default function LoginPage() {
 
       if (error) throw error;
 
-      navigate('/auth/callback');
+      // App.tsx onAuthStateChange will automatically handle navigation
+      // and route to /complete-profile or /dashboard based on profile existence.
     } catch (err: any) {
       alert(err.message || "Failed to log in");
     } finally {

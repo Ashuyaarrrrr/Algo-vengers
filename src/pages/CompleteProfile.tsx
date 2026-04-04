@@ -44,67 +44,90 @@ export default function CompleteProfile() {
     setLoading(true);
 
     try {
-      // Step 1: Get the authenticated user
-      console.log('🔍 Getting current user...');
-      const { data: authData, error: authError } = await supabase.auth.getUser();
+      console.log('🔍 Resolving user identity...');
 
-      if (authError) {
-        console.error('❌ Auth error:', authError);
-        throw new Error(`Auth error: ${authError.message}`);
+      // Helper to prevent infinite hangs on Supabase promises
+      const withTimeout = async <T,>(promise: PromiseLike<T>, ms: number, label: string): Promise<T> => {
+        const timeout = new Promise<never>((_, reject) => {
+          setTimeout(() => reject(new Error(`${label} timed out after ${ms}ms`)), ms);
+        });
+        return Promise.race([Promise.resolve(promise), timeout]);
+      };
+
+      // Step 1: Always verify the active session directly to prevent desyncs
+      console.log('🔄 Fetching active session from Supabase...');
+      const sessionRes = await withTimeout(
+        supabase.auth.getSession(),
+        8000,
+        'Session verification'
+      );
+
+      if (sessionRes.error) {
+        throw new Error(`Session error: ${sessionRes.error.message}`);
       }
 
-      const user = authData?.user;
-      if (!user) {
-        console.error('❌ No user found in session');
-        throw new Error('No authenticated user found. Please log in again.');
+      const sessionUser = sessionRes.data?.session?.user;
+      if (!sessionUser) {
+        throw new Error('Your session has expired or is invalid. Please log in again.');
       }
 
-      console.log('✅ User found:', user.id, user.email);
+      const userId = sessionUser.id;
+      const userEmail = sessionUser.email;
+      const userName = sessionUser.user_metadata?.full_name;
+      console.log('✅ User resolved:', userId);
 
-      // Step 2: Upsert profile (handles both new and returning users safely)
-      // Only include columns that exist in the profiles table schema
-      console.log('💾 Upserting profile with role:', role);
-      const { error: profileError } = await supabase
+      // Step 2: Upsert profile — safe for both new users and re-submits
+      console.log('💾 Saving profile, role:', role);
+      const upsertPromise = supabase
         .from('profiles')
         .upsert(
           {
-            id: user.id,
-            name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'User',
+            id: userId,
+            name: userName || userEmail?.split('@')[0] || 'User',
             role,
             location,
           },
           { onConflict: 'id' }
-        );
+        ).then(res => res);
 
+      const { error: profileError } = await withTimeout(
+        upsertPromise,
+        10000,
+        'Profile save'
+      ) as any;
 
       if (profileError) {
-        console.error('❌ Profile upsert error:', profileError);
+        console.error('❌ Profile upsert error code:', profileError.code, profileError.message);
+        // Provide actionable messages for common errors
+        if (profileError.code === '42501') {
+          throw new Error('Permission denied. Please check that RLS policies allow INSERT and UPDATE for authenticated users.');
+        }
         throw new Error(`Failed to save profile: ${profileError.message}`);
       }
 
       console.log('✅ Profile saved successfully');
 
-      // Step 3: Update local auth store
-      setUser({
-        id: user.id,
-        email: user.email,
+      // Step 3: Update local auth store so dashboard renders immediately
+      useAuthStore.getState().setUser({
+        id: userId,
+        email: userEmail,
         role,
         isProfileComplete: true,
       });
 
-      // Step 4: Navigate based on role
-      const redirectPath = ROLE_REDIRECT[role] ?? '/dashboard';
-      console.log('➡️ Redirecting to:', redirectPath);
-      navigate(redirectPath, { replace: true });
+      // Step 4: Navigate to dashboard
+      console.log('➡️ Navigating to dashboard...');
+      navigate('/dashboard', { replace: true });
 
     } catch (err: any) {
-      console.error('💥 CompleteProfile error:', err);
+      console.error('💥 CompleteProfile submit error:', err);
       setErrorMsg(err?.message || 'Something went wrong. Please try again.');
     } finally {
-      // Always reset loading — no matter what happens
+      // Always reset loading — guaranteed by finally block
       setLoading(false);
     }
   };
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">

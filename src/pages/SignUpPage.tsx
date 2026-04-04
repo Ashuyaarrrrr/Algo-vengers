@@ -53,28 +53,44 @@ export default function SignUpPage() {
 
       if (error) throw error;
 
+      const withTimeout = async <T,>(promise: PromiseLike<T>, ms: number, label: string): Promise<T> => {
+        const timeout = new Promise<never>((_, reject) => {
+          setTimeout(() => reject(new Error(`${label} timed out after ${ms}ms`)), ms);
+        });
+        return Promise.race([Promise.resolve(promise), timeout]);
+      };
+
       if (data.user) {
-        await supabase.from('profiles').upsert({
+        // Upsert the profile explicitly with a timeout guard
+        const upsertPromise = supabase.from('profiles').upsert({
           id: data.user.id,
           name: fullName || '', 
           email,
           role,
           location,
-        });
+        }).then(res => res);
+
+        const upsertRes: any = await withTimeout(upsertPromise, 10000, 'Profile creation');
+        if (upsertRes.error) throw new Error(upsertRes.error.message);
       }
 
       // 🔥 ensure session exists (important fix)
-      const { data: sessionData } = await supabase.auth.getSession();
+      const { data: sessionData } = await withTimeout(supabase.auth.getSession(), 8000, 'Session check');
 
       if (!sessionData.session) {
-        await supabase.auth.signInWithPassword({
+        const { error: signInError } = await withTimeout(supabase.auth.signInWithPassword({
           email,
           password,
-        });
+        }), 8000, 'Sign in');
+        
+        // If email confirmation is required, signInWithPassword will return an error
+        // like "Email not confirmed". We should inform the user instead of hanging.
+        if (signInError) {
+           throw signInError;
+        }
       }
 
-      // 👉 Let AuthCallback handle routing
-      navigate('/auth/callback');
+      // App.tsx auth listener handles navigation globally.
 
     } catch (err: any) {
       alert(err.message || 'Something went wrong');
