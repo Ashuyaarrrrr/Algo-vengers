@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -24,6 +24,11 @@ import AdminCompliancePage from "./pages/AdminCompliancePage";
 import AdminUsersPage from "./pages/AdminUsersPage";
 import NotFound from "./pages/NotFound";
 
+// 🔥 ADD THESE IMPORTS
+import AuthCallback from "./pages/AuthCallback";
+import CompleteProfile from "./pages/CompleteProfile";
+
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -33,11 +38,18 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
+
+          {/* Public Routes */}
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/verify/:qrCode" element={<ConsumerVerifyPage />} />
 
+          {/* 🔥 ADD THESE ROUTES (MOST IMPORTANT) */}
+          <Route path="/auth/callback" element={<AuthCallback />} />
+          <Route path="/complete-profile" element={<CompleteProfile />} />
+
+          {/* Protected Routes */}
           <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
             <Route path="/dashboard" element={<DashboardPage />} />
 
@@ -58,7 +70,9 @@ const App = () => (
             <Route path="/admin/users" element={<ProtectedRoute allowedRoles={['admin']}><AdminUsersPage /></ProtectedRoute>} />
           </Route>
 
+          {/* Fallback */}
           <Route path="*" element={<NotFound />} />
+
         </Routes>
       </BrowserRouter>
     </TooltipProvider>

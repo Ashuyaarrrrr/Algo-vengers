@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useAuthStore } from '@/lib/auth-store';
-import { DEMO_USERS, type UserRole } from '@/lib/demo-data';
+import { supabase } from '@/lib/supabase';
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -13,115 +13,207 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
+type UserRole = 'farmer' | 'lab' | 'processor' | 'manufacturer' | 'admin';
+
 export default function SignUpPage() {
   const navigate = useNavigate();
-  const { login } = useAuthStore();
-  
+
   const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState<UserRole | ''>('');
   const [location, setLocation] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSignUp = (e: React.FormEvent) => {
+  // 🔥 EMAIL SIGNUP
+  const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!username || !role) return;
-    
-    // For demo purposes, we will assign a matching demo user ID based on role
-    // if the user tries to sign up. In a real app we'd create a new user.
-    const userToLogin = DEMO_USERS.find(u => u.role === role);
-    if (userToLogin) {
-      login(userToLogin.id);
-      navigate('/dashboard');
+
+    if (!email || !password || !role) {
+      alert('Please fill all required fields');
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: fullName,
+            role,
+            location,
+            username,
+          },
+        },
+      });
+
+      if (error) throw error;
+
+      if (data.user) {
+        await supabase.from('users').upsert({
+          id: data.user.id,
+          full_name: fullName || '',
+          email,
+          username,
+          role,
+          location,
+        });
+      }
+
+      // 🔥 ensure session exists (important fix)
+      const { data: sessionData } = await supabase.auth.getSession();
+
+      if (!sessionData.session) {
+        await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+      }
+
+      // 👉 Let AuthCallback handle routing
+      navigate('/auth/callback');
+
+    } catch (err: any) {
+      alert(err.message || 'Something went wrong');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 🔥 GOOGLE SIGNUP
+  const handleGoogleSignIn = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: 'http://localhost:8080/auth/callback',
+      },
+    });
+
+    if (error) {
+      alert(error.message);
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4 py-12 bg-gray-50/50">
-      <div className="w-full max-w-md animate-fade-in mx-auto">
+    <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-gray-50">
+      <div className="w-full max-w-md">
+
+        {/* Heading */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Create Account</h1>
-          <p className="text-muted-foreground text-gray-500">
-            Join the HerbChain network
-          </p>
+          <h1 className="text-3xl font-bold">Create Account</h1>
+          <p className="text-gray-500">Join the HerbChain network</p>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
-          <form onSubmit={handleSignUp} className="space-y-6">
-            <div className="space-y-2">
-              <Label htmlFor="fullName" className="text-gray-600 font-medium">Full Name</Label>
+        {/* Card */}
+        <div className="bg-white p-8 rounded-xl shadow border">
+          <form onSubmit={handleSignUp} className="space-y-5">
+
+            {/* Full Name */}
+            <div>
+              <Label>Full Name</Label>
               <Input
-                id="fullName"
-                placeholder="Your full name"
-                className="bg-gray-100/50 border-gray-200"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
+                placeholder="Ashu Vimal"
               />
             </div>
-            
-            <div className="space-y-2">
-              <Label htmlFor="username" className="text-gray-600 font-medium">Username</Label>
+
+            {/* Email */}
+            <div>
+              <Label>Email</Label>
               <Input
-                id="username"
-                placeholder="jbj"
-                className="bg-[#eff5ff] border-gray-200"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="ashu@gmail.com"
                 required
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="password" className="text-gray-600 font-medium">Password</Label>
+            {/* Username */}
+            <div>
+              <Label>Username</Label>
               <Input
-                id="password"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="ashu123"
+              />
+            </div>
+
+            {/* Password */}
+            <div>
+              <Label>Password</Label>
+              <Input
                 type="password"
-                placeholder="•••"
-                className="bg-[#eff5ff] border-gray-200 tracking-widest"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="role" className="text-gray-600 font-medium">Role</Label>
-              <Select value={role} onValueChange={(value) => setRole(value as UserRole)} required>
-                <SelectTrigger className="bg-gray-100/50 border-gray-200 w-full text-left justify-between">
-                  <SelectValue placeholder="Select your role" />
+            {/* Role */}
+            <div>
+              <Label>Role</Label>
+              <Select onValueChange={(val) => setRole(val as UserRole)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select role" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="farmer">Farmer</SelectItem>
                   <SelectItem value="lab">Lab Technician</SelectItem>
                   <SelectItem value="processor">Processor</SelectItem>
                   <SelectItem value="manufacturer">Manufacturer</SelectItem>
-                  <SelectItem value="admin">Administrator</SelectItem>
+                  <SelectItem value="admin">Admin</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="location" className="text-gray-600 font-medium">Location (optional)</Label>
+            {/* Location */}
+            <div>
+              <Label>Location</Label>
               <Input
-                id="location"
-                placeholder="e.g., Uttarakhand, India"
-                className="bg-gray-100/50 border-gray-200"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
+                placeholder="Uttarakhand, India"
               />
             </div>
 
-            <Button type="submit" className="w-full bg-[#10b981] hover:bg-[#059669] text-white">
-              Create Account
+            {/* Submit */}
+            <Button
+              type="submit"
+              className="w-full bg-green-600 text-white"
+              disabled={loading}
+            >
+              {loading ? 'Creating...' : 'Create Account'}
             </Button>
+
           </form>
-          
-          <div className="mt-6 text-center">
-            <Link to="/login" className="text-sm text-gray-500 hover:text-gray-700">
-              Already have an account? Sign in
-            </Link>
+
+          {/* Divider */}
+          <div className="my-6 text-center text-gray-400 text-sm">
+            OR
           </div>
+
+          {/* Google Button */}
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full"
+            onClick={handleGoogleSignIn}
+          >
+            Continue with Google
+          </Button>
+
+          {/* Login */}
+          <p className="mt-6 text-center text-sm text-gray-500">
+            <Link to="/login">Already have an account? Sign in</Link>
+          </p>
         </div>
+
       </div>
     </div>
   );

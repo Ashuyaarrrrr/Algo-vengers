@@ -1,19 +1,22 @@
 import { create } from 'zustand';
-import { DemoUser, DEMO_USERS } from './demo-data';
+
+interface User {
+  id: string;
+  email?: string;
+  isProfileComplete?: boolean;
+}
 
 interface AuthState {
-  user: DemoUser | null;
-  isAuthenticated: boolean;
-  login: (userId: string) => void;
+  user: User | null;
+  setUser: (user: User) => void;
   logout: () => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
-  isAuthenticated: false,
-  login: (userId: string) => {
-    const user = DEMO_USERS.find((u) => u.id === userId) ?? null;
-    set({ user, isAuthenticated: !!user });
-  },
-  logout: () => set({ user: null, isAuthenticated: false }),
+
+  // ✅ THIS IS IMPORTANT
+  setUser: (user) => set({ user }),
+
+  logout: () => set({ user: null }),
 }));

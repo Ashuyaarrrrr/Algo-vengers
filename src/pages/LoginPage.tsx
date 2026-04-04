@@ -8,7 +8,9 @@ import { Label } from '@/components/ui/label';
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const { login } = useAuthStore();
+
+  // ✅ FIX: use setUser instead of login
+  const setUser = useAuthStore((state) => state.setUser);
   
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -17,34 +19,43 @@ export default function LoginPage() {
     e.preventDefault();
     if (!username) return;
 
-    // For demo purposes, we will assign a demo user ID based on matching the username roughly
-    // Or default to 'farmer-1' if not found.
+    // Demo user matching
     const userToLogin = DEMO_USERS.find(u => 
       u.name.toLowerCase().includes(username.toLowerCase()) || 
       u.id.includes(username.toLowerCase())
     ) || DEMO_USERS[0];
 
-    login(userToLogin.id);
+    // ✅ FIX: store user properly
+    setUser({
+      id: userToLogin.id,
+      isProfileComplete: true, // demo ke liye direct dashboard
+    });
+
     navigate('/dashboard');
   };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 py-12 bg-gray-50/50">
       <div className="w-full max-w-md animate-fade-in mx-auto">
+        
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h1>
-          <p className="text-muted-foreground text-gray-500">
+          <p className="text-gray-500">
             Sign in to your HerbChain account
           </p>
         </div>
 
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+          
           <form onSubmit={handleLogin} className="space-y-6">
+
             <div className="space-y-2">
-              <Label htmlFor="username" className="text-gray-600 font-medium">Username</Label>
+              <Label htmlFor="username" className="text-gray-600 font-medium">
+                Username
+              </Label>
               <Input
                 id="username"
-                placeholder="jbj"
+                placeholder="Username"
                 className="bg-[#eff5ff] border-gray-200"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -53,7 +64,9 @@ export default function LoginPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-gray-600 font-medium">Password</Label>
+              <Label htmlFor="password" className="text-gray-600 font-medium">
+                Password
+              </Label>
               <Input
                 id="password"
                 type="password"
@@ -65,23 +78,34 @@ export default function LoginPage() {
               />
             </div>
 
-            <Button type="submit" className="w-full bg-[#10b981] hover:bg-[#059669] text-white">
+            <Button 
+              type="submit" 
+              className="w-full bg-[#10b981] hover:bg-[#059669] text-white"
+            >
               Sign In
             </Button>
           </form>
           
           <div className="mt-6 text-center space-y-2">
             <div>
-              <Link to="/signup" className="text-sm text-gray-500 hover:text-gray-700">
+              <Link 
+                to="/signup" 
+                className="text-sm text-gray-500 hover:text-gray-700"
+              >
                 Don't have an account? Create one
               </Link>
             </div>
+
             <div>
-              <Link to="/verify/ASHVITAL-001-2026" className="text-sm text-[#10b981] hover:text-[#059669]">
+              <Link 
+                to="/verify/ASHVITAL-001-2026" 
+                className="text-sm text-[#10b981] hover:text-[#059669]"
+              >
                 Or scan a product as a consumer →
               </Link>
             </div>
           </div>
+
         </div>
       </div>
     </div>

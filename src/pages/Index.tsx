@@ -14,7 +14,7 @@ export default function Index() {
       number: "02",
       title: "Processing",
       description: "Processors record drying, grinding, and storage conditions in the immutable chain.",
-      image: "https://images.unsplash.com/photo-1611078810237-7b89d464cb3d?auto=format&fit=crop&q=80&w=600&h=400"
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAnD97SzzVpip92ug-ACsGYiFtcINTFNr91A&s"
     },
     {
       number: "03",
@@ -26,7 +26,7 @@ export default function Index() {
       number: "04",
       title: "Manufacturing",
       description: "Manufacturers combine verified batches and generate QR-linked product records.",
-      image: "https://images.unsplash.com/photo-1608248593842-835fc034e3dd?auto=format&fit=crop&q=80&w=600&h=400"
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWHrCQA0mnru4MWH95mbNNuBs-xPcwxgZxzA&s"
     }
   ];
 
