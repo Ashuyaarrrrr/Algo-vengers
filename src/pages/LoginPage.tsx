@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useAuthStore } from '@/lib/auth-store';
-import { DEMO_USERS } from '@/lib/demo-data';
+import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -9,30 +8,44 @@ import { Label } from '@/components/ui/label';
 export default function LoginPage() {
   const navigate = useNavigate();
 
-  // ✅ FIX: use setUser instead of login
-  const setUser = useAuthStore((state) => state.setUser);
-  
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!username) return;
+    if (!email || !password) return;
+    
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-    // Demo user matching
-    const userToLogin = DEMO_USERS.find(u => 
-      u.name.toLowerCase().includes(username.toLowerCase()) || 
-      u.id.includes(username.toLowerCase())
-    ) || DEMO_USERS[0];
+      if (error) throw error;
 
-    // ✅ FIX: store user properly
-    setUser({
-      id: userToLogin.id,
-      isProfileComplete: true, // demo ke liye direct dashboard
+      navigate('/auth/callback');
+    } catch (err: any) {
+      alert(err.message || "Failed to log in");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
     });
 
-    navigate('/dashboard');
+    if (error) {
+      alert(error.message);
+    }
   };
+
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 py-12 bg-gray-50/50">
@@ -50,15 +63,16 @@ export default function LoginPage() {
           <form onSubmit={handleLogin} className="space-y-6">
 
             <div className="space-y-2">
-              <Label htmlFor="username" className="text-gray-600 font-medium">
-                Username
+              <Label htmlFor="email" className="text-gray-600 font-medium">
+                Email
               </Label>
               <Input
-                id="username"
-                placeholder="Username"
+                id="email"
+                type="email"
+                placeholder="Email address"
                 className="bg-[#eff5ff] border-gray-200"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
@@ -81,10 +95,24 @@ export default function LoginPage() {
             <Button 
               type="submit" 
               className="w-full bg-[#10b981] hover:bg-[#059669] text-white"
+              disabled={loading}
             >
-              Sign In
+              {loading ? 'Signing In...' : 'Sign In'}
             </Button>
           </form>
+
+          <div className="my-6 text-center text-gray-400 text-sm">
+            OR
+          </div>
+
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full"
+            onClick={handleGoogleSignIn}
+          >
+            Continue with Google
+          </Button>
           
           <div className="mt-6 text-center space-y-2">
             <div>

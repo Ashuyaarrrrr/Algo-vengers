@@ -54,11 +54,10 @@ export default function SignUpPage() {
       if (error) throw error;
 
       if (data.user) {
-        await supabase.from('users').upsert({
+        await supabase.from('profiles').upsert({
           id: data.user.id,
-          full_name: fullName || '',
+          name: fullName || '', 
           email,
-          username,
           role,
           location,
         });

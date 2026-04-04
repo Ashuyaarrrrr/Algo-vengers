@@ -1,65 +1,41 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '@/lib/supabase';
 import { useAuthStore } from '@/lib/auth-store';
 
+/**
+ * This page is landed on after:
+ *   - Email/password login (navigated from LoginPage)
+ *   - Google OAuth redirect (from Supabase)
+ *
+ * Auth state is resolved by the onAuthStateChange listener in App.tsx,
+ * which sets the store and triggers navigation. This page just waits.
+ */
 export default function AuthCallback() {
   const navigate = useNavigate();
-  const setUser = useAuthStore((state) => state.setUser);
+  const { user, isInitialized } = useAuthStore();
 
   useEffect(() => {
-    const handleAuth = async () => {
-      try {
-        console.log("🔥 Getting session...");
+    if (!isInitialized) return; // still loading — wait
 
-        // ✅ IMPORTANT: getSession instead of getUser
-        const { data: { session }, error } = await supabase.auth.getSession();
+    if (!user) {
+      // Auth resolved but no session — send to login
+      navigate('/login', { replace: true });
+      return;
+    }
 
-        console.log("SESSION:", session, error);
-
-        const user = session?.user;
-
-        if (!user) {
-          console.log("❌ No session user");
-          navigate('/login');
-          return;
-        }
-
-        console.log("✅ User:", user.id);
-
-        // 🔥 PROFILE CHECK
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', user.id)
-          .maybeSingle();
-
-        setUser({
-          id: user.id,
-          email: user.email,
-          isProfileComplete: !!profile,
-        });
-
-        if (!profile) {
-          console.log("➡️ NEW USER");
-          window.location.href = '/complete-profile';
-        } else {
-          console.log("➡️ EXISTING USER");
-          window.location.href = '/dashboard';
-        }
-
-      } catch (err) {
-        console.error("💥 ERROR:", err);
-        navigate('/login');
-      }
-    };
-
-    handleAuth();
-  }, []);
+    if (!user.isProfileComplete) {
+      // Authenticated but no profile yet — complete profile
+      navigate('/complete-profile', { replace: true });
+    } else {
+      // Fully authenticated — go to dashboard
+      navigate('/dashboard', { replace: true });
+    }
+  }, [isInitialized, user]);
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <p>Signing you in...</p>
+    <div className="flex flex-col items-center justify-center h-screen bg-gray-50 gap-4">
+      <div className="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+      <p className="text-gray-500 text-sm">Signing you in...</p>
     </div>
   );
 }

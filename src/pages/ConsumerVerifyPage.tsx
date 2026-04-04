@@ -1,5 +1,6 @@
+import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { JOURNEY_DATA } from '@/lib/demo-data';
+import { supabase } from '@/lib/supabase';
 import { Leaf, FlaskConical, Factory, Package, ShieldCheck, MapPin, CheckCircle, ExternalLink } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -12,8 +13,29 @@ const STEP_ICONS: Record<string, React.ElementType> = {
 
 export default function ConsumerVerifyPage() {
   const { qrCode } = useParams();
-  const data = JOURNEY_DATA;
-  const isValid = qrCode === 'ASHVITAL-001-2026';
+  const [data, setData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      if (!qrCode) return;
+      const { data: product } = await supabase.from('products').select('*').eq('qrCode', qrCode).maybeSingle();
+      if (product) setData(product);
+      setLoading(false);
+    };
+    fetchProduct();
+  }, [qrCode]);
+
+  // Use dummy fallback if we want to show UI shapes
+  const displayData = data || {
+    authenticityScore: 98,
+    productName: data?.name || 'Tracing...',
+    manufacturer: '...',
+    batchId: data?.batchId || '...',
+    steps: []
+  };
+
+  const isValid = !!data;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-sage-50/50 to-background">
@@ -29,7 +51,9 @@ export default function ConsumerVerifyPage() {
       </header>
 
       <div className="container max-w-2xl py-8 space-y-6 animate-fade-in">
-        {!isValid ? (
+        {loading ? (
+          <Card><CardContent className="p-8 text-center">Loading product data...</CardContent></Card>
+        ) : !isValid ? (
           <Card>
             <CardContent className="p-8 text-center">
               <div className="rounded-full bg-destructive/10 w-16 h-16 flex items-center justify-center mx-auto mb-4">
@@ -51,20 +75,20 @@ export default function ConsumerVerifyPage() {
                   </div>
                   <div className="flex-1">
                     <h2 className="text-xl font-bold text-success">Verified Authentic</h2>
-                    <p className="text-sm text-muted-foreground">Blockchain-verified with {data.authenticityScore}% confidence</p>
+                    <p className="text-sm text-muted-foreground">Blockchain-verified with {displayData.authenticityScore}% confidence</p>
                   </div>
                 </div>
-                <Progress value={data.authenticityScore} className="mt-4 h-2" />
+                <Progress value={displayData.authenticityScore} className="mt-4 h-2" />
               </CardContent>
             </Card>
 
             {/* Product Info */}
             <Card>
               <CardContent className="p-6">
-                <h3 className="text-lg font-bold">{data.productName}</h3>
-                <p className="text-sm text-muted-foreground">by {data.manufacturer}</p>
+                <h3 className="text-lg font-bold">{displayData.productName}</h3>
+                <p className="text-sm text-muted-foreground">by {displayData.manufacturer}</p>
                 <div className="flex items-center gap-2 mt-2">
-                  <Badge variant="outline" className="font-mono-data text-xs">{data.batchId}</Badge>
+                  <Badge variant="outline" className="font-mono-data text-xs">{displayData.batchId}</Badge>
                 </div>
               </CardContent>
             </Card>
@@ -76,7 +100,7 @@ export default function ConsumerVerifyPage() {
                 <div className="relative">
                   <div className="absolute left-5 top-0 bottom-0 w-0.5 bg-border" />
                   <div className="space-y-6">
-                    {data.steps.map((step, i) => {
+                    {displayData.steps?.map((step: any, i: number) => {
                       const Icon = STEP_ICONS[step.icon] || Leaf;
                       return (
                         <div key={i} className="relative flex gap-4">
