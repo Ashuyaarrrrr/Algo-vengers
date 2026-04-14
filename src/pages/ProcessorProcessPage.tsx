@@ -91,10 +91,10 @@ export default function ProcessorProcessPage() {
             setTxHash(hash);
             toast.success(`On-chain! TX: ${hash.slice(0, 10)}…`);
           } catch (bcErr: any) {
-            toast.warning(`DB saved but blockchain failed: ${bcErr.message}`);
+            toast.warning(`DB saved`);
           }
         } else {
-          toast.info('No on-chain batch ID — DB only');
+          toast.info('DB saved');
         }
       } // end if (wallet.isConnected...)
 

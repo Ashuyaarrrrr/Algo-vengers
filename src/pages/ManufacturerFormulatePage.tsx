@@ -64,9 +64,6 @@ export default function ManufacturerFormulatePage() {
   const fetchCollections = async () => {
     setCollectionsLoading(true);
     try {
-      // Select all columns the FarmerCollectPage actually inserts.
-      // NOTE: batch_id may be null if no trigger auto-generates it.
-      // We use 'date' (not 'collected_at') — that is the actual column name.
       const { data, error } = await supabase
         .from('collections')
         .select('id, batch_id, species, quantity, unit, date, quality, location_name, latitude, longitude, collector_id')
@@ -158,14 +155,28 @@ export default function ManufacturerFormulatePage() {
       if (fErr) throw fErr;
 
       // ── Step 3: Insert ingredients ──
-      const { error: ingErr } = await supabase.from('formulation_ingredients').insert(
-        herbs.map((h) => ({
-          formulation_id: formulation.id,
-          herb_name: h.name.trim(),
-          percentage: Number(h.percentage),
-        }))
-      );
-      if (ingErr) throw ingErr;
+      console.log('[ManufacturerFormulate] Inserting ingredients for formulation:', formulation.id);
+      console.log('[ManufacturerFormulate] Ingredients to insert:', herbs);
+
+      const ingredientRows = herbs.map((h) => ({
+        formulation_id: formulation.id,
+        herb_name: h.name.trim(),
+        percentage: Number(h.percentage),
+        quantity: `${h.percentage}%`,
+      }));
+
+      const { data: insertedIngredients, error: ingErr } = await supabase
+        .from('formulation_ingredients')
+        .insert(ingredientRows)
+        .select();
+
+      if (ingErr) {
+        console.error('[ManufacturerFormulate] ❌ Ingredient insert error:', ingErr.message, ingErr.details, ingErr.hint);
+        // Don't throw — product is already created; show warning but continue
+        toast.warning(`Product created but ingredient insert failed: ${ingErr.message}`);
+      } else {
+        console.log('[ManufacturerFormulate] ✅ Ingredients inserted successfully:', insertedIngredients);
+      }
 
       // ── Step 4: Generate product code & insert product ──
       const productCode = generateProductCode(productName);

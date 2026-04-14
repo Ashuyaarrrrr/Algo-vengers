@@ -69,7 +69,7 @@ export default function ConsumerVerifyPage() {
     setLoading(true);
     setNotFound(false);
     try {
-      // 1. Find product by product_code
+      // 1. Find product by product_code (join formulations + ingredients)
       const { data: product, error: pErr } = await supabase
         .from('products')
         .select(`
@@ -78,14 +78,17 @@ export default function ConsumerVerifyPage() {
           mfg_date,
           exp_date,
           formulations (
+            id,
             blockchain_id,
             product_name,
             dosage,
-            formulation_ingredients ( herb_name, percentage )
+            formulation_ingredients ( herb_name, percentage, quantity )
           )
         `)
         .eq('product_code', code)
         .maybeSingle();
+
+      console.log('[ConsumerVerify] product fetch result:', { product, pErr });
 
       if (pErr) throw pErr;
 
@@ -101,9 +104,34 @@ export default function ConsumerVerifyPage() {
         .eq('product_id', product.id)
         .maybeSingle();
 
+      console.log('[ConsumerVerify] qr_record fetch result:', qrRecord);
+
       // 3. Merge stored trace JSON with fresh product data
       const formulation = (product as any).formulations;
       const storedTrace = qrRecord?.qr_data || {};
+
+      // Ingredients: prefer live DB join, fallback to stored JSON
+      const dbIngredients: any[] = formulation?.formulation_ingredients || [];
+      const jsonIngredients: any[] = storedTrace.formulation?.ingredients || [];
+
+      console.log('[ConsumerVerify] DB ingredients:', dbIngredients);
+      console.log('[ConsumerVerify] JSON ingredients:', jsonIngredients);
+
+      // If DB join returned no ingredients but we have a formulation ID,
+      // try a separate direct fetch
+      let finalIngredients = dbIngredients.length > 0 ? dbIngredients : jsonIngredients;
+
+      if (dbIngredients.length === 0 && formulation?.id) {
+        console.log('[ConsumerVerify] DB join returned 0 ingredients — fetching directly by formulation_id:', formulation.id);
+        const { data: directIng, error: dErr } = await supabase
+          .from('formulation_ingredients')
+          .select('herb_name, percentage, quantity')
+          .eq('formulation_id', formulation.id);
+        console.log('[ConsumerVerify] Direct ingredient fetch:', { directIng, dErr });
+        if (!dErr && directIng && directIng.length > 0) {
+          finalIngredients = directIng;
+        }
+      }
 
       const traceData = {
         // Product
@@ -115,8 +143,7 @@ export default function ConsumerVerifyPage() {
         // Formulation
         product_name: formulation?.product_name || storedTrace.formulation?.product_name || 'Product',
         dosage: formulation?.dosage || storedTrace.formulation?.dosage || '',
-        ingredients: formulation?.formulation_ingredients ||
-          storedTrace.formulation?.ingredients || [],
+        ingredients: finalIngredients,
         // Trace chain from stored JSON
         collection: storedTrace.collection || null,
         lab_tests: storedTrace.lab_tests || [],
@@ -124,6 +151,9 @@ export default function ConsumerVerifyPage() {
         // Journey timeline
         journey: storedTrace.journey || [],
       };
+
+      console.log('[ConsumerVerify] Final traceData:', traceData);
+      console.log('[ConsumerVerify] Ingredient count:', traceData.ingredients.length);
 
       setTrace(traceData);
 
@@ -262,7 +292,10 @@ export default function ConsumerVerifyPage() {
                   {ingredients.map((ing: any, i: number) => (
                     <Badge key={i} variant="secondary" className="text-xs">
                       <Leaf className="h-3 w-3 mr-1 text-sage-600" />
-                      {ing.herb_name || ing.name} — {ing.percentage}%
+                      {ing.herb_name || ing.name}
+                      {(ing.percentage != null || ing.quantity)
+                        ? ` — ${ing.quantity ?? ing.percentage + '%'}`
+                        : ''}
                     </Badge>
                   ))}
                 </div>

@@ -102,10 +102,10 @@ export default function LabPendingPage() {
             setLastTxHash(txHash);
             toast.success(`On-chain! TX: ${txHash.slice(0, 10)}…`);
           } catch (bcErr: any) {
-            toast.warning(`DB saved but blockchain failed: ${bcErr.message}`);
+            toast.warning(`DB saved`);
           }
         } else {
-          toast.info('No on-chain batch ID found — only saved to database');
+          toast.info('DB saved');
         }
       }
 

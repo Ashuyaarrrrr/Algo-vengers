@@ -51,14 +51,16 @@ export default function ManufacturerQRPage() {
             mfg_date,
             exp_date,
             formulations (
+              id,
               product_name,
               dosage,
-              formulation_ingredients ( herb_name, percentage )
+              formulation_ingredients ( herb_name, percentage, quantity )
             )
           )
         `)
         .order('created_at', { ascending: false });
 
+      console.log('[ManufacturerQR] qr_codes fetch:', { data, error });
       if (error) throw error;
       setQrRecords((data as any) || []);
     } catch (err: any) {
@@ -187,7 +189,12 @@ export default function ManufacturerQRPage() {
             const code = prod?.product_code || '';
             const name = form?.product_name || 'Unknown Product';
             const dosage = form?.dosage || '';
-            const ingredients = form?.formulation_ingredients || [];
+            // Prefer live DB ingredients; fall back to stored qr_data JSON
+            const dbIngredients = form?.formulation_ingredients || [];
+            const jsonIngredients = record.qr_data?.formulation?.ingredients || [];
+            const ingredients = dbIngredients.length > 0 ? dbIngredients : jsonIngredients;
+
+            console.log(`[ManufacturerQR] ${code} — DB ings: ${dbIngredients.length}, JSON ings: ${jsonIngredients.length}, final: ${ingredients.length}`);
 
             return (
               <Card
